@@ -1,6 +1,7 @@
 import os
 import cv2
 import torch
+import decord
 from torch.utils.data import Dataset
 from einops import rearrange
 
@@ -76,10 +77,10 @@ class TuneAVideoDataset(Dataset):
 
     def __getitem__(self, index):
         # load and sample video frames
-        # vr = decord.VideoReader(self.video_path, width=self.width, height=self.height)
-        # sample_index = list(range(self.sample_start_idx, len(vr), self.sample_frame_rate))[:self.n_sample_frames]
-        # video = vr.get_batch(sample_index)
-        video = extract_frames(self.video_path, self.sample_start_idx, self.sample_start_idx + self.n_sample_frames)
+        vr = decord.VideoReader(self.video_path, width=self.width, height=self.height)
+        sample_index = list(range(self.sample_start_idx, len(vr), self.sample_frame_rate))[:self.n_sample_frames]
+        video = vr.get_batch(sample_index)
+        # video = extract_frames(self.video_path, self.sample_start_idx, self.sample_start_idx + self.n_sample_frames)
         video = rearrange(video, "f h w c -> f c h w")
 
         example = {
