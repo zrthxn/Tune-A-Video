@@ -10,7 +10,7 @@ import torch
 import torch.nn as nn
 import torch.utils.checkpoint
 
-from diffusers.models import ModelMixin
+from diffusers import ModelMixin
 from diffusers.configuration_utils import register_to_config, ConfigMixin
 from diffusers.utils import BaseOutput, logging
 from diffusers.models.embeddings import TimestepEmbedding, Timesteps
