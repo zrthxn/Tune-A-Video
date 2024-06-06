@@ -20,9 +20,9 @@ from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
 from einops import rearrange
 
-from stableguts.models.tuneavideo.model.unet import TuneVideoConditionModel
-from stableguts.models.tuneavideo.pipeline import TuneAVideoPipeline
-from stableguts.models.tuneavideo.util import save_videos_grid, ddim_inversion
+from tuneavideo.model.unet import UNet3DConditionModel
+from tuneavideo.pipelines.pipeline_tuneavideo import TuneAVideoPipeline
+from tuneavideo.util import save_videos_grid, ddim_inversion
 
 
 # Will error if the minimal version of diffusers is not installed. Remove at your own risks.
@@ -96,7 +96,7 @@ def train(
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
     vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
-    unet = TuneVideoConditionModel.from_pretrained_2d(pretrained_model_path, subfolder="unet", safetensors=True)
+    unet = UNet3DConditionModel.from_pretrained_2d(pretrained_model_path, subfolder="unet", safetensors=True)
 
     # Freeze vae and text_encoder
     vae.requires_grad_(False)
